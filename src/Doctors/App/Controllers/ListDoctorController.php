@@ -17,8 +17,7 @@ class ListDoctorController
     )]
     public function __invoke(
         ListDoctorAction $action,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $doctors = $action->execute();
 
         return DoctorResource::collection($doctors)->response();

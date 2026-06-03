@@ -11,7 +11,7 @@ class ListDoctorAction
     public function execute(): LengthAwarePaginator
     {
         return QueryBuilder::for(Doctor::class)
-            ->orderByDesc('id',)
+            ->orderByDesc('id')
             ->paginate();
     }
 }

@@ -17,7 +17,7 @@ class StoreDoctorController
     )]
     public function __invoke(UpsertDoctorRequest $request, StoreDoctorAction $action): JsonResponse
     {
-        $doctor = $action->execute($request->toDto());
+        $doctor = $action->execute($request->getName());
 
         return DoctorResource::make($doctor)
             ->response()
