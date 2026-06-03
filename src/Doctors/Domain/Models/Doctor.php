@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lightit\Doctors\Domain\Models;
 
+use Database\Factories\DoctorFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,7 +43,7 @@ class Doctor extends Model
         return $this->belongsToMany(Clinic::class);
     }
 
-    public function appointment(): HasMany
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
     }
