@@ -16,10 +16,10 @@ use Lightit\Clinics\Domain\Models\Clinic;
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
  * @property string|null             $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointment
- * @property-read int|null $appointment_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Clinic> $clinic
- * @property-read int|null $clinic_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointments
+ * @property-read int|null $appointments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Clinic> $clinics
+ * @property-read int|null $clinics_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newQuery()
@@ -41,7 +41,7 @@ class Doctor extends Model
         return $this->belongsToMany(Clinic::class);
     }
 
-    public function appointment(): HasMany
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
     }
