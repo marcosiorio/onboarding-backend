@@ -23,5 +23,4 @@ class StoreDoctorController
             ->response()
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
-
 }

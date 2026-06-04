@@ -2,7 +2,6 @@
 
 namespace Lightit\Doctors\Domain\Actions;
 
-use Lightit\Doctors\Domain\DataTransferObjects\DoctorDto;
 use Lightit\Doctors\Domain\Models\Doctor;
 
 class StoreDoctorAction

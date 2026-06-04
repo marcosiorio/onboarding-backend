@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Lightit\Doctors\App\Controllers;
@@ -11,9 +12,9 @@ use Lightit\Doctors\Domain\Actions\ListDoctorAction;
 class ListDoctorController
 {
     #[Endpoint(
-    operationId: 'listDoctors',
-    title: 'List doctors',
-    description: 'Retrieves a list of doctors.'
+        operationId: 'listDoctors',
+        title: 'List doctors',
+        description: 'Retrieves a list of doctors.'
     )]
     public function __invoke(
         ListDoctorAction $action,

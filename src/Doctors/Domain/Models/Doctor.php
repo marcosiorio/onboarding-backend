@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lightit\Doctors\Domain\Models;
 
-use Database\Factories\DoctorFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,10 +16,10 @@ use Lightit\Clinics\Domain\Models\Clinic;
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
  * @property string|null             $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointment
- * @property-read int|null $appointment_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Clinic> $clinic
- * @property-read int|null $clinic_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointments
+ * @property-read int|null $appointments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Clinic> $clinics
+ * @property-read int|null $clinics_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newQuery()

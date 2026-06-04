@@ -17,10 +17,10 @@ use Lightit\Doctors\Domain\Models\Doctor;
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
  * @property string|null             $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointment
- * @property-read int|null $appointment_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Doctor> $doctor
- * @property-read int|null $doctor_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointments
+ * @property-read int|null $appointments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Doctor> $doctors
+ * @property-read int|null $doctors_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic newQuery()

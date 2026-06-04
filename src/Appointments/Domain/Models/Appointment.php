@@ -20,9 +20,9 @@ use Lightit\Patients\Domain\Models\Patient;
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
  * @property string|null             $deleted_at
- * @property-read Clinic $clinic
- * @property-read Doctor $doctor
- * @property-read Patient $patient
+ * @property-read Clinic|null $clinics
+ * @property-read Doctor|null $doctors
+ * @property-read Patient|null $patients
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
@@ -43,17 +43,17 @@ class Appointment extends Model
 {
     protected $guarded = ['id'];
 
-    public function patient(): BelongsTo
+    public function patients(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
-    public function clinic(): BelongsTo
+    public function clinics(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
 
-    public function doctor(): BelongsTo
+    public function doctors(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }
