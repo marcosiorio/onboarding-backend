@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpsertClinicRequest extends FormRequest
 {
     public const string NAME = 'name';
+
     public const string ADDRESS = 'address';
 
     public function rules(): array
@@ -23,11 +24,13 @@ class UpsertClinicRequest extends FormRequest
 
     public function getName(): ?string
     {
-        return $this->input(self::NAME);
+        $value = $this->input(self::NAME);
+        return is_string($value) ? $value : null;
     }
 
     public function getAddress(): ?string
     {
-        return $this->input(self::ADDRESS);
+        $value = $this->input(self::ADDRESS);
+        return is_string($value) ? $value : null;
     }
 }

@@ -6,8 +6,8 @@ namespace Lightit\Clinics\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Lightit\Appointments\Domain\Models\Appointment;
 use Lightit\Doctors\Domain\Models\Doctor;
 
@@ -39,13 +39,20 @@ class Clinic extends Model
 {
     use SoftDeletes;
 
+    #[\Override]
     protected $guarded = ['id'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\Lightit\Doctors\Domain\Models\Doctor, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function doctors(): BelongsToMany
     {
         return $this->belongsToMany(Doctor::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\Lightit\Appointments\Domain\Models\Appointment, $this>
+     */
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);

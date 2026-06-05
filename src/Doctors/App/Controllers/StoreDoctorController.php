@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\App\Controllers;
 
 use Dedoc\Scramble\Attributes\Endpoint;
@@ -23,5 +25,4 @@ final readonly class StoreDoctorController
             ->response()
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
-
 }

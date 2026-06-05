@@ -8,7 +8,7 @@ use Lightit\Patients\Domain\Models\Patient;
 
 final class DeletePatientAction
 {
-    public function execute(Patient $patient): bool
+    public function execute(Patient $patient): bool|null
     {
         return $patient->deleteOrFail();
     }

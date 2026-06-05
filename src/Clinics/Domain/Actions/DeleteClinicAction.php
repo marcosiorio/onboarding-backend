@@ -8,7 +8,7 @@ use Lightit\Clinics\Domain\Models\Clinic;
 
 final class DeleteClinicAction
 {
-    public function execute(Clinic $clinic): bool
+    public function execute(Clinic $clinic): bool|null
     {
         return $clinic->deleteOrFail();
     }

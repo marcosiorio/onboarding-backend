@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\Domain\Actions;
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -8,10 +10,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ListDoctorAction
 {
+    /** @return LengthAwarePaginator<int, Doctor> */
     public function execute(): LengthAwarePaginator
     {
         return QueryBuilder::for(Doctor::class)
-            ->orderByDesc('id',)
+            ->orderByDesc('id', )
             ->paginate();
     }
 }

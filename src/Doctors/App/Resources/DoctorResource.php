@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\App\Resources;
 
 use Illuminate\Http\Request;
@@ -15,7 +17,7 @@ class DoctorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name'=> $this->name
+            'name'=> $this->name,
         ];
     }
 }

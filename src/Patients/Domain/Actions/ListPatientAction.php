@@ -10,6 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ListPatientAction
 {
+    /** @return LengthAwarePaginator<int, Patient> */
     public function execute(): LengthAwarePaginator
     {
         return QueryBuilder::for(Patient::class)

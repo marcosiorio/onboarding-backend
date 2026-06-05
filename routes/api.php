@@ -60,7 +60,7 @@ Route::prefix('users')
     });
 
 Route::prefix('doctors')
-    ->group(static function () {
+    ->group(static function (): void {
         Route::get('/', ListDoctorController::class);
         Route::post('/', StoreDoctorController::class);
         Route::prefix('{doctor}')->group(static function (): void {

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Lightit\Doctors\Domain\DataTransferObjects\DoctorDto;
 
 class UpsertDoctorRequest extends FormRequest
 {
@@ -18,6 +19,8 @@ class UpsertDoctorRequest extends FormRequest
 
     public function getName(): string
     {
-        return $this->name;
+        $value = $this->input(self::NAME);
+
+        return is_string($value) ? $value : '';
     }
 }

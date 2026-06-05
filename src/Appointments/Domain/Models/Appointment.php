@@ -44,18 +44,28 @@ class Appointment extends Model
 {
     use SoftDeletes;
 
+    #[\Override]
     protected $guarded = ['id'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Patients\Domain\Models\Patient, $this>
+     */
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Clinics\Domain\Models\Clinic, $this>
+     */
     public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Doctors\Domain\Models\Doctor, $this>
+     */
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);

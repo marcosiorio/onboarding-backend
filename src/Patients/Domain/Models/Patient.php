@@ -35,8 +35,12 @@ class Patient extends Model
 {
     use SoftDeletes;
 
+    #[\Override]
     protected $guarded = ['id'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\Lightit\Appointments\Domain\Models\Appointment, $this>
+     */
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
