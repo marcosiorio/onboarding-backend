@@ -6,6 +6,7 @@ namespace Lightit\Clinics\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Lightit\Appointments\Domain\Models\Appointment;
 use Lightit\Doctors\Domain\Models\Doctor;
@@ -36,6 +37,8 @@ use Lightit\Doctors\Domain\Models\Doctor;
  */
 class Clinic extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = ['id'];
 
     public function doctors(): BelongsToMany

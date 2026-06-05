@@ -4,8 +4,21 @@ declare(strict_types=1);
 
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
+use Lightit\Clinics\App\Controllers\DeleteClinicController;
+use Lightit\Clinics\App\Controllers\GetClinicController;
+use Lightit\Clinics\App\Controllers\ListClinicController;
+use Lightit\Clinics\App\Controllers\StoreClinicController;
+use Lightit\Clinics\App\Controllers\UpdateClinicController;
+use Lightit\Doctors\App\Controllers\DeleteDoctorController;
+use Lightit\Doctors\App\Controllers\GetDoctorController;
 use Lightit\Doctors\App\Controllers\ListDoctorController;
 use Lightit\Doctors\App\Controllers\StoreDoctorController;
+use Lightit\Doctors\App\Controllers\UpdateDoctorController;
+use Lightit\Patients\App\Controllers\DeletePatientController;
+use Lightit\Patients\App\Controllers\GetPatientController;
+use Lightit\Patients\App\Controllers\ListPatientController;
+use Lightit\Patients\App\Controllers\StorePatientController;
+use Lightit\Patients\App\Controllers\UpdatePatientController;
 use Lightit\Users\App\Controllers\DeleteUserController;
 use Lightit\Users\App\Controllers\GetUserController;
 use Lightit\Users\App\Controllers\ListUserController;
@@ -50,4 +63,31 @@ Route::prefix('doctors')
     ->group(static function () {
         Route::get('/', ListDoctorController::class);
         Route::post('/', StoreDoctorController::class);
+        Route::prefix('{doctor}')->group(static function (): void {
+            Route::get('/', GetDoctorController::class);
+            Route::put('/', UpdateDoctorController::class);
+            Route::delete('/', DeleteDoctorController::class);
+        });
+    });
+
+Route::prefix('patients')
+    ->group(static function (): void {
+        Route::get('/', ListPatientController::class);
+        Route::post('/', StorePatientController::class);
+        Route::prefix('{patient}')->group(static function (): void {
+            Route::get('/', GetPatientController::class);
+            Route::put('/', UpdatePatientController::class);
+            Route::delete('/', DeletePatientController::class);
+        });
+    });
+
+Route::prefix('clinics')
+    ->group(static function (): void {
+        Route::get('/', ListClinicController::class);
+        Route::post('/', StoreClinicController::class);
+        Route::prefix('{clinic}')->group(static function (): void {
+            Route::get('/', GetClinicController::class);
+            Route::put('/', UpdateClinicController::class);
+            Route::delete('/', DeleteClinicController::class);
+        });
     });

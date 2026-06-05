@@ -10,10 +10,10 @@ class StoreDoctorAction
     /**
      * @mixin Doctor
      */
-    public function execute(DoctorDto $doctorDto): Doctor
+    public function execute(string $name): Doctor
     {
         $doctor = new Doctor();
-        $doctor->name = $doctorDto->name;
+        $doctor->name = $name;
 
         $doctor->saveOrFail();
 

@@ -8,7 +8,7 @@ use Lightit\Doctors\App\Requests\UpsertDoctorRequest;
 use Lightit\Doctors\App\Resources\DoctorResource;
 use Lightit\Doctors\Domain\Actions\StoreDoctorAction;
 
-class StoreDoctorController
+final readonly class StoreDoctorController
 {
     #[Endpoint(
         operationId: 'storeDoctor',
@@ -17,7 +17,7 @@ class StoreDoctorController
     )]
     public function __invoke(UpsertDoctorRequest $request, StoreDoctorAction $action): JsonResponse
     {
-        $doctor = $action->execute($request->toDto());
+        $doctor = $action->execute($request->getName());
 
         return DoctorResource::make($doctor)
             ->response()

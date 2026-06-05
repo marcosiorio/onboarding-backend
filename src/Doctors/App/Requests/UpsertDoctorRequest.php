@@ -16,10 +16,8 @@ class UpsertDoctorRequest extends FormRequest
         ];
     }
 
-    public function toDto(): DoctorDto
+    public function getName(): string
     {
-        return new DoctorDto(
-            name: $this->string(self::NAME)->toString(),
-        );
+        return $this->name;
     }
 }
