@@ -22,15 +22,17 @@ class UpsertClinicRequest extends FormRequest
         ];
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         $value = $this->input(self::NAME);
+
         return is_string($value) ? $value : null;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): string|null
     {
         $value = $this->input(self::ADDRESS);
+
         return is_string($value) ? $value : null;
     }
 }

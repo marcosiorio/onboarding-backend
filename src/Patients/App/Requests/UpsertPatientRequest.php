@@ -22,15 +22,17 @@ class UpsertPatientRequest extends FormRequest
         ];
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         $value = $this->input(self::NAME);
+
         return is_string($value) ? $value : null;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string|null
     {
         $value = $this->input(self::EMAIL);
+
         return is_string($value) ? $value : null;
     }
 }

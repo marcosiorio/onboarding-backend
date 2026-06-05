@@ -53,7 +53,7 @@ Route::prefix('users')
         Route::get('/', ListUserController::class);
         Route::post('/', StoreUserController::class);
         Route::prefix('{user}')->group(static function (): void {
-            Route::get('/', GetUserController::class)->withTrashed();
+            Route::get('/', GetUserController::class);
             Route::put('/', UpdateUserController::class);
             Route::delete('/', DeleteUserController::class);
         })->whereNumber('user');
