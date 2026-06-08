@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Lightit\Clinics\Domain\Models\Clinic;
 
 /**
- * @extends Factory<Clinic>
+ * @extends Factory<\Lightit\Shared\App\Model>
  */
 class ClinicFactory extends Factory
 {
@@ -16,8 +16,9 @@ class ClinicFactory extends Factory
 
     public function definition(): array
     {
+
         return [
-            'name'    => $this->faker->company(),
+            'name' => $this->faker->company(),
             'address' => $this->faker->address(),
         ];
     }

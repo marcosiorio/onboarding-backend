@@ -10,6 +10,7 @@ use Database\Factories\PatientFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Lightit\Doctors\Domain\Models\Doctor;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,15 +22,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         UserFactory::new()->createMany(35);
-        PatientFactory::new()->createMany(20);
-
-        $clinics = ClinicFactory::new()->createMany(10);
-        $doctors = DoctorFactory::new()->createMany(15);
-
-        $clinics->each(function ($clinic) use ($doctors) {
-            $clinic->doctors()->attach(
-                $doctors->random(rand(1, 5))->pluck('id')->toArray()
-            );
-        });
+        $doctors = DoctorFactory::new()->createMany(35);
+        ClinicFactory::new()
+            ->hasAttached($doctors->random(rand(1, 3)))
+            ->createMany(35);
+        PatientFactory::new()->createMany(35);
     }
 }

@@ -12,6 +12,7 @@ use Lightit\Doctors\Domain\Models\Doctor;
 use Lightit\Patients\Domain\Models\Patient;
 
 /**
+<<<<<<< feature/CU-86e1qjjaj/create-patient-and-clinics-CRUD-endpoints
  * @property int                          $id
  * @property int                          $doctor_id
  * @property int                          $patient_id
@@ -24,6 +25,20 @@ use Lightit\Patients\Domain\Models\Patient;
  * @property-read Clinic|null $clinic
  * @property-read Doctor|null $doctor
  * @property-read Patient|null $patient
+=======
+ * @property int                     $id
+ * @property int                     $doctor_id
+ * @property int                     $patient_id
+ * @property int                     $clinic_id
+ * @property string                  $start_date
+ * @property string                  $end_date
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property string|null             $deleted_at
+ * @property-read Clinic|null $clinics
+ * @property-read Doctor|null $doctors
+ * @property-read Patient|null $patients
+>>>>>>> develop
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
@@ -50,26 +65,17 @@ class Appointment extends Model
     #[\Override]
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Patients\Domain\Models\Patient, $this>
-     */
-    public function patient(): BelongsTo
+    public function patients(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Clinics\Domain\Models\Clinic, $this>
-     */
-    public function clinic(): BelongsTo
+    public function clinics(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\Lightit\Doctors\Domain\Models\Doctor, $this>
-     */
-    public function doctor(): BelongsTo
+    public function doctors(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }
