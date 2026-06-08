@@ -20,7 +20,6 @@ final readonly class UpdatePatientController
         $patient = $action->execute($patient, $request->getName(), $request->getEmail());
 
         return PatientResource::make($patient)
-            ->response()
-            ->setStatusCode(JsonResponse::HTTP_OK);
+            ->response();
     }
 }

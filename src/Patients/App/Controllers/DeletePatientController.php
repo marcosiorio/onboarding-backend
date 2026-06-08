@@ -10,10 +10,10 @@ use Lightit\Patients\Domain\Models\Patient;
 
 final readonly class DeletePatientController
 {
-    public function __invoke(Patient $patient, DeletePatientAction $action): JsonResponse
+    public function __invoke(Patient $patient): JsonResponse
     {
-        $action->execute($patient);
+        $patient->deleteOrFail();
 
-        return response()->json(null, JsonResponse::HTTP_NO_CONTENT);
+        return response()->json(Status: JsonResponse::HTTP_NO_CONTENT);
     }
 }

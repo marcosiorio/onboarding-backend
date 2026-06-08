@@ -8,15 +8,10 @@ use Lightit\Clinics\Domain\Models\Clinic;
 
 final readonly class UpdateClinicAction
 {
-    public function execute(Clinic $clinic, string|null $name, string|null $address): Clinic
+    public function execute(Clinic $clinic, string $name, string $address): Clinic
     {
-        if ($name !== null) {
-            $clinic->name = $name;
-        }
-
-        if ($address !== null) {
-            $clinic->address = $address;
-        }
+        $clinic->name = $name;
+        $clinic->address = $address;
 
         $clinic->saveOrFail();
 

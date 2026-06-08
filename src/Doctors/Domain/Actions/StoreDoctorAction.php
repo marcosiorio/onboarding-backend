@@ -8,9 +8,6 @@ use Lightit\Doctors\Domain\Models\Doctor;
 
 class StoreDoctorAction
 {
-    /**
-     * @mixin Doctor
-     */
     public function execute(string $name): Doctor
     {
         $doctor = new Doctor();

@@ -8,17 +8,12 @@ use Lightit\Patients\Domain\Models\Patient;
 
 final readonly class UpdatePatientAction
 {
-    public function execute(Patient $patient, string|null $name, string|null $email): Patient
+    public function execute(Patient $patient, string $name, string $email): Patient
     {
-        if ($name !== null) {
-            $patient->name = $name;
-        }
+        $patient->name = $name;
+        $patient->email = $email;
 
-        if ($email !== null) {
-            $patient->email = $email;
-        }
-
-        $patient->save();
+        $patient->saveOrFail();
 
         return $patient;
     }

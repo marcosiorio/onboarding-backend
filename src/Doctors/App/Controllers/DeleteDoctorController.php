@@ -12,10 +12,9 @@ final readonly class DeleteDoctorController
 {
     public function __invoke(
         Doctor $doctor,
-        DeleteDoctorAction $action,
     ): JsonResponse {
-        $action->execute($doctor);
+        $doctor->deleteOrFail();
 
-        return response()->json(null, JsonResponse::HTTP_NO_CONTENT);
+        return response()->json(Status: JsonResponse::HTTP_NO_CONTENT);
     }
 }

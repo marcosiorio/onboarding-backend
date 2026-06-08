@@ -11,7 +11,7 @@ final readonly class UpdateDoctorAction
     public function execute(Doctor $doctor, string $name): Doctor
     {
         $doctor->name = $name;
-        $doctor->save();
+        $doctor->saveOrFail();
 
         return $doctor;
     }

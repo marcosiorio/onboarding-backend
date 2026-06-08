@@ -20,7 +20,6 @@ final readonly class UpdateClinicController
         $clinic = $action->execute($clinic, $request->getName(), $request->getAddress());
 
         return ClinicResource::make($clinic)
-            ->response()
-            ->setStatusCode(JsonResponse::HTTP_OK);
+            ->response();
     }
 }

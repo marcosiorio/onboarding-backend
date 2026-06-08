@@ -14,25 +14,20 @@ class UpsertClinicRequest extends FormRequest
 
     public function rules(): array
     {
-        $required = $this->isMethod('put') ? 'sometimes' : 'required';
-
         return [
-            self::NAME    => [$required, 'string', 'min:4', 'max:100'],
-            self::ADDRESS => [$required, 'string', 'max:255'],
+            self::NAME    => ['required', 'string', 'min:4', 'max:100'],
+            self::ADDRESS => ['required', 'string', 'max:255'],
         ];
     }
 
-    public function getName(): string|null
+    public function getName(): string
     {
-        $value = $this->input(self::NAME);
-
-        return is_string($value) ? $value : null;
+        return $this->string(self::NAME)->toString();
     }
 
-    public function getAddress(): string|null
+    public function getAddress(): string
     {
-        $value = $this->input(self::ADDRESS);
+        return $this->string(self::ADDRESS)->toString();
 
-        return is_string($value) ? $value : null;
     }
 }
