@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Lightit\Doctors\Domain\Actions;
+namespace Lightit\Clinics\Domain\Actions;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Lightit\Doctors\Domain\Models\Doctor;
+use Lightit\Clinics\Domain\Models\Clinic;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ListDoctorAction
+class ListClinicAction
 {
-    /** @return LengthAwarePaginator<int, Doctor> */
+    /** @return LengthAwarePaginator<int, Clinic> */
     public function execute(): LengthAwarePaginator
     {
-        return QueryBuilder::for(Doctor::class)
+        return QueryBuilder::for(Clinic::class)
             ->orderByDesc('id')
             ->paginate();
     }

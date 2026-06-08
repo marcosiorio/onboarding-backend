@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\App\Controllers;
 
 use Dedoc\Scramble\Attributes\Endpoint;
 use Illuminate\Http\JsonResponse;
 use Lightit\Doctors\App\Requests\UpsertDoctorRequest;
 use Lightit\Doctors\App\Resources\DoctorResource;
-use Lightit\Doctors\Domain\Actions\StoreDoctorAction;
+use Lightit\Doctors\Domain\Actions\UpsertDoctorAction;
 
-class StoreDoctorController
+final readonly class StoreDoctorController
 {
     #[Endpoint(
         operationId: 'storeDoctor',
         title: 'store a doctor',
         description: 'Store a new doctor data',
     )]
-    public function __invoke(UpsertDoctorRequest $request, StoreDoctorAction $action): JsonResponse
+    public function __invoke(UpsertDoctorRequest $request, UpsertDoctorAction $action): JsonResponse
     {
         $doctor = $action->execute($request->getName());
 

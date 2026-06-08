@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Lightit\Doctors\App\Resources\DoctorResource;
 use Lightit\Doctors\Domain\Actions\ListDoctorAction;
 
-class ListDoctorController
+final readonly class ListDoctorController
 {
     #[Endpoint(
         operationId: 'listDoctors',

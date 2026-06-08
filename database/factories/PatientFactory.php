@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Lightit\Patients\Domain\Models\Patient;
 
 /**
- * @extends Factory<\Lightit\Shared\App\Model>
+ * @extends Factory<Patient>
  */
 class PatientFactory extends Factory
 

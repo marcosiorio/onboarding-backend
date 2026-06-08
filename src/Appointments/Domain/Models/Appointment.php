@@ -6,26 +6,28 @@ namespace Lightit\Appointments\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Lightit\Clinics\Domain\Models\Clinic;
 use Lightit\Doctors\Domain\Models\Doctor;
 use Lightit\Patients\Domain\Models\Patient;
 
 /**
- * @property int                     $id
- * @property int                     $doctor_id
- * @property int                     $patient_id
- * @property int                     $clinic_id
- * @property string                  $start_date
- * @property string                  $end_date
- * @property \Carbon\CarbonImmutable $created_at
- * @property \Carbon\CarbonImmutable $updated_at
- * @property string|null             $deleted_at
- * @property-read Clinic|null $clinics
- * @property-read Doctor|null $doctors
- * @property-read Patient|null $patients
+ * @property int                          $id
+ * @property int                          $doctor_id
+ * @property int                          $patient_id
+ * @property int                          $clinic_id
+ * @property string                       $start_date
+ * @property string                       $end_date
+ * @property \Carbon\CarbonImmutable      $created_at
+ * @property \Carbon\CarbonImmutable      $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property-read Clinic|null $clinic
+ * @property-read Doctor|null $doctor
+ * @property-read Patient|null $patient
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereClinicId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereCreatedAt($value)
@@ -36,23 +38,40 @@ use Lightit\Patients\Domain\Models\Patient;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withoutTrashed()
  *
  * @mixin \Eloquent
  */
 class Appointment extends Model
 {
+    use SoftDeletes;
+
+    #[\Override]
     protected $guarded = ['id'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
+     *                                                                           /
+     */
     public function patients(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Clinic, $this>
+     *                                                                          /
+     */
     public function clinics(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Doctor, $this>
+     *                                                                          /
+     */
     public function doctors(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
