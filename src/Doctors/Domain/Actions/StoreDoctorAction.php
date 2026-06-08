@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Doctors\Domain\Actions;
 
 use Lightit\Doctors\Domain\DataTransferObjects\DoctorDto;
