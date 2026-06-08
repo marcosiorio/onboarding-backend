@@ -51,8 +51,8 @@ class Appointment extends Model
     protected $guarded = ['id'];
 
     /**
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
-     * /
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
+     *                                                                           /
      */
     public function patients(): BelongsTo
     {
@@ -60,8 +60,8 @@ class Appointment extends Model
     }
 
     /**
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Clinic, $this>
-     * /
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Clinic, $this>
+     *                                                                          /
      */
     public function clinics(): BelongsTo
     {
@@ -69,8 +69,8 @@ class Appointment extends Model
     }
 
     /**
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Doctor, $this>
-     * /
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Doctor, $this>
+     *                                                                          /
      */
     public function doctors(): BelongsTo
     {

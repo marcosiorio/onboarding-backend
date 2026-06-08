@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Lightit\Clinics\App\Requests\UpsertClinicRequest;
 use Lightit\Clinics\App\Resources\ClinicResource;
 use Lightit\Clinics\Domain\Actions\StoreClinicAction;
+use Lightit\Clinics\Domain\Actions\UpsertClinicAction;
 
 final readonly class StoreClinicController
 {
@@ -17,9 +18,9 @@ final readonly class StoreClinicController
         title: 'Store a clinic',
         description: 'Store a new clinic data',
     )]
-    public function __invoke(UpsertClinicRequest $request, StoreClinicAction $action): JsonResponse
+    public function __invoke(UpsertClinicRequest $request, UpsertClinicAction $action): JsonResponse
     {
-        $clinic = $action->execute($request->getName(), $request->getAddress());
+        $clinic = $action->execute(name: $request->getName(), address: $request->getAddress());
 
         return ClinicResource::make($clinic)
             ->response()
