@@ -23,12 +23,10 @@ class UpsertPatientRequest extends FormRequest
     public function getName(): string
     {
         return $this->string(self::NAME)->toString();
-
     }
 
     public function getEmail(): string
     {
-         return $this->string(self::EMAIL)->toString();
-
+        return $this->string(self::EMAIL)->toString();
     }
 }

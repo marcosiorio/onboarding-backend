@@ -20,6 +20,5 @@ class UpsertDoctorRequest extends FormRequest
     public function getName(): string
     {
         return $this->string(self::NAME)->toString();
-
     }
 }

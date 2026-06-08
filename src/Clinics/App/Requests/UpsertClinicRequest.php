@@ -28,6 +28,5 @@ class UpsertClinicRequest extends FormRequest
     public function getAddress(): string
     {
         return $this->string(self::ADDRESS)->toString();
-
     }
 }
