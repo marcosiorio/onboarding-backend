@@ -8,7 +8,7 @@ use Lightit\Clinics\Domain\Models\Clinic;
 
 final readonly class UpsertClinicAction
 {
-    public function execute( string $name, string $address, ?Clinic $clinic = null): Clinic
+    public function execute(string $name, string $address, Clinic|null $clinic = null): Clinic
     {
         $newClinic = $clinic ?? new Clinic();
 

@@ -13,9 +13,9 @@ use Lightit\Clinics\Domain\Models\Clinic;
 final readonly class UpdateClinicController
 {
     public function __invoke(
-        Clinic              $clinic,
+        Clinic $clinic,
         UpsertClinicRequest $request,
-        UpsertClinicAction  $action,
+        UpsertClinicAction $action,
     ): JsonResponse {
         $clinic = $action->execute($request->getName(), $request->getAddress(), $clinic);
 

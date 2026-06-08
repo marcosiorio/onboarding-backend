@@ -8,7 +8,7 @@ use Lightit\Doctors\Domain\Models\Doctor;
 
 final readonly class UpsertDoctorAction
 {
-    public function execute(string $name, ?Doctor $doctor = null): Doctor
+    public function execute(string $name, Doctor|null $doctor = null): Doctor
     {
         $newDoctor = $doctor ?? new Doctor();
 

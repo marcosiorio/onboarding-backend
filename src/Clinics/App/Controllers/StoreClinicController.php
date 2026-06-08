@@ -8,7 +8,6 @@ use Dedoc\Scramble\Attributes\Endpoint;
 use Illuminate\Http\JsonResponse;
 use Lightit\Clinics\App\Requests\UpsertClinicRequest;
 use Lightit\Clinics\App\Resources\ClinicResource;
-use Lightit\Clinics\Domain\Actions\StoreClinicAction;
 use Lightit\Clinics\Domain\Actions\UpsertClinicAction;
 
 final readonly class StoreClinicController
