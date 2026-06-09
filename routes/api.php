@@ -6,6 +6,7 @@ use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
 use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
+use Lightit\Appointments\App\Controllers\StoreAppointmentController;
 use Lightit\Clinics\App\Controllers\DeleteClinicController;
 use Lightit\Clinics\App\Controllers\GetClinicController;
 use Lightit\Clinics\App\Controllers\ListClinicController;
@@ -69,7 +70,7 @@ Route::prefix('doctors')
             Route::get('/', GetDoctorController::class);
             Route::put('/', UpdateDoctorController::class);
             Route::delete('/', DeleteDoctorController::class);
-        });
+        })->whereNumber('doctor');
     });
 
 Route::prefix('patients')
@@ -80,7 +81,7 @@ Route::prefix('patients')
             Route::get('/', GetPatientController::class);
             Route::put('/', UpdatePatientController::class);
             Route::delete('/', DeletePatientController::class);
-        });
+        })->whereNumber('patient');
     });
 
 Route::prefix('clinics')
@@ -91,13 +92,14 @@ Route::prefix('clinics')
             Route::get('/', GetClinicController::class);
             Route::put('/', UpdateClinicController::class);
             Route::delete('/', DeleteClinicController::class);
-        });
+        })->whereNumber('clinic');
     });
 
 Route::prefix('appointments')
     ->group(static function (): void {
         Route::get('/', ListAppointmentController::class);
+        Route::post('/', StoreAppointmentController::class);
         Route::prefix('{appointment}')->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
-        });
+        })->whereNumber('appointment');
     });
