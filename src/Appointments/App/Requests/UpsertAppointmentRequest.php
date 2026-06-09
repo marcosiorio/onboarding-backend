@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -40,9 +42,9 @@ final class UpsertAppointmentRequest extends FormRequest
     public function toDto(): AppointmentDto
     {
         return new AppointmentDto(
-            doctor_id: $this->input(self::DOCTOR_ID),
-            patient_id: $this->input(self::PATIENT_ID),
-            clinic_id: $this->input(self::CLINIC_ID),
+            doctor_id: $this->integer(self::DOCTOR_ID),
+            patient_id: $this->integer(self::PATIENT_ID),
+            clinic_id: $this->integer(self::CLINIC_ID),
             start_date: $this->string(self::START_DATE)->toString(),
             end_date: $this->string(self::END_DATE)->toString(),
         );

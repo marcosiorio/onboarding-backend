@@ -51,7 +51,8 @@ class Appointment extends Model
 
     #[\Override]
     protected $guarded = ['id'];
-    private $durationInMinutes = 30;
+
+    private int $durationInMinutes = 30;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
@@ -80,11 +81,7 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-//    public function getDurationInMinutes()
-
-    /**
-     * @return int
-     */
+    //    public function getDurationInMinutes()
     public function getDurationInMinutes(): int
     {
         return $this->durationInMinutes;
