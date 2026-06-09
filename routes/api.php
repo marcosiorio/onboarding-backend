@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
+use Lightit\Appointments\App\Controllers\GetAppointmentController;
+use Lightit\Appointments\App\Controllers\ListAppointmentController;
 use Lightit\Clinics\App\Controllers\DeleteClinicController;
 use Lightit\Clinics\App\Controllers\GetClinicController;
 use Lightit\Clinics\App\Controllers\ListClinicController;
@@ -89,5 +91,13 @@ Route::prefix('clinics')
             Route::get('/', GetClinicController::class);
             Route::put('/', UpdateClinicController::class);
             Route::delete('/', DeleteClinicController::class);
+        });
+    });
+
+Route::prefix('appointments')
+    ->group(static function (): void {
+        Route::get('/', ListAppointmentController::class);
+        Route::prefix('{appointment}')->group(static function(): void {
+            Route::get('/', GetAppointmentController::class);
         });
     });
