@@ -37,7 +37,7 @@
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\Branch\\On",
-                        "args": [""]
+                        "args": ["develop"]
                     }
                 ]
             },

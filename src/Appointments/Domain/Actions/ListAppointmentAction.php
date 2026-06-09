@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\Domain\Actions;
 
 use Illuminate\Pagination\LengthAwarePaginator;

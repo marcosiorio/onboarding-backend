@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\App\Controllers;
 
 use Dedoc\Scramble\Attributes\Endpoint;
@@ -17,7 +19,7 @@ final readonly class GetAppointmentController
     public function __invoke(
         Appointment $appointment,
     ): JsonResponse {
-      return AppointmentResource::make($appointment)
-          ->response();
+        return AppointmentResource::make($appointment)
+            ->response();
     }
 }
