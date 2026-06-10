@@ -20,7 +20,7 @@ final readonly class UpsertAppointmentAction
         $doctorsWithClinics = Doctor::query()->with('clinics')
             ->find($appointmentDto->doctor_id);
 
-        if( !$doctorsWithClinics->clinics->contains('id', $appointmentDto->clinic_id) ) {
+        if ($doctorsWithClinics == null || $doctorsWithClinics->clinics->doesntContain('id', $appointmentDto->clinic_id)) {
             throw new Exception('Selected doctor doesn\'t work at the selected clinic');
         }
 
@@ -55,8 +55,8 @@ final readonly class UpsertAppointmentAction
         $appointment->patient_id = $appointmentDto->patient_id;
         $appointment->clinic_id = $appointmentDto->clinic_id;
         $appointment->start_date = $appointmentDto->start_date;
-        $appointment->end_date = $end;
-        $appointment->status = AppointmentStatusEnum::ACTIVE;
+        $appointment->end_date = $end->toDateTimeString();
+        $appointment->status = AppointmentStatusEnum::ACTIVE->value;
 
         $appointment->saveOrFail();
 

@@ -14,9 +14,13 @@ use Lightit\Patients\Domain\Models\Patient;
 final class StoreAppointmentRequest extends FormRequest
 {
     public const string DOCTOR_ID = 'doctor_id';
+
     public const string PATIENT_ID = 'patient_id';
+
     public const string CLINIC_ID = 'clinic_id';
+
     public const string START_DATE = 'start_date';
+
     public const string END_DATE = 'end_date';
 
     public function rules(): array
@@ -42,7 +46,6 @@ final class StoreAppointmentRequest extends FormRequest
             patient_id: $this->integer(self::PATIENT_ID),
             clinic_id: $this->integer(self::CLINIC_ID),
             start_date: $this->string(self::START_DATE)->toString(),
-            end_date: $this->string(self::END_DATE)->toString(),
         );
     }
 }
