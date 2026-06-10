@@ -18,8 +18,8 @@ final readonly class UpsertAppointmentAction
     {
         $appointment = $existing ?? new Appointment();
 
-        $patientId = $appointmentDto->patient_id ?? $existing->patient_id;
-        $clinicId = $appointmentDto->clinic_id ?? $existing->clinic_id;
+        $patientId = $appointmentDto->patient_id ?? $existing?->patient_id;
+        $clinicId  = $appointmentDto->clinic_id  ?? $existing?->clinic_id;
 
         $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 
@@ -63,7 +63,7 @@ final readonly class UpsertAppointmentAction
     ): void {
         $query = Appointment::query()->where('doctor_id', $doctorId);
 
-        if ($existing instanceof \Lightit\Appointments\Domain\Models\Appointment) {
+        if ($existing instanceof Appointment) {
             $query->where('id', '!=', $existing->id);
         }
 
@@ -87,7 +87,7 @@ final readonly class UpsertAppointmentAction
     ): void {
         $query = Appointment::query()->where('patient_id', $patientId);
 
-        if ($existing instanceof \Lightit\Appointments\Domain\Models\Appointment) {
+        if ($existing instanceof Appointment) {
             $query->where('id', '!=', $existing->id);
         }
 
