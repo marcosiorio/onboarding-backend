@@ -50,8 +50,10 @@ class Appointment extends Model
     use SoftDeletes;
 
     protected const int HOURS_PER_DAY = 24 * 2;
+
     #[\Override]
     protected $guarded = ['id'];
+
     public int $durationInMinutes = 30 {
         get {
             return $this->durationInMinutes;
@@ -85,8 +87,8 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function getAppointmentCancelationTime(){
+    public function getAppointmentCancelationTime(): int
+    {
         return self::HOURS_PER_DAY;
     }
-
 }

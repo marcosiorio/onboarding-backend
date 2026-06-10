@@ -14,27 +14,27 @@ use Lightit\Doctors\Domain\Models\Doctor;
 
 final readonly class UpsertAppointmentAction
 {
-    public function execute(AppointmentDto $appointmentDto, ?Appointment $existing = null): Appointment
+    public function execute(AppointmentDto $appointmentDto, Appointment|null $existing = null): Appointment
     {
         $appointment = $existing ?? new Appointment();
 
-        $patientId = $existing?->patient_id ?? $appointmentDto->patient_id;
-        $clinicId  = $existing?->clinic_id  ?? $appointmentDto->clinic_id;
+        $patientId = $existing->patient_id ?? (int) $appointmentDto->patient_id;
+        $clinicId = $existing->clinic_id ?? (int) $appointmentDto->clinic_id;
 
         $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 
         $start = CarbonImmutable::parse($appointmentDto->start_date);
-        $end   = $this->computeEndDate($start, $appointment);
+        $end = $this->computeEndDate($start, $appointment);
 
         $this->ensureNoDoctorConflict($appointmentDto->doctor_id, $start, $end, $existing);
         $this->ensureNoPatientConflict($patientId, $start, $end, $existing);
 
-        $appointment->doctor_id  = $appointmentDto->doctor_id;
+        $appointment->doctor_id = $appointmentDto->doctor_id;
         $appointment->patient_id = $patientId;
-        $appointment->clinic_id  = $clinicId;
+        $appointment->clinic_id = $clinicId;
         $appointment->start_date = $appointmentDto->start_date;
-        $appointment->end_date   = $end->toDateTimeString();
-        $appointment->status     = AppointmentStatusEnum::ACTIVE->value;
+        $appointment->end_date = $end->toDateTimeString();
+        $appointment->status = AppointmentStatusEnum::ACTIVE->value;
 
         $appointment->saveOrFail();
 
@@ -59,11 +59,11 @@ final readonly class UpsertAppointmentAction
         int $doctorId,
         CarbonImmutable $start,
         CarbonImmutable $end,
-        ?Appointment $existing,
+        Appointment|null $existing,
     ): void {
         $query = Appointment::query()->where('doctor_id', $doctorId);
 
-        if ($existing !== null) {
+        if ($existing instanceof \Lightit\Appointments\Domain\Models\Appointment) {
             $query->where('id', '!=', $existing->id);
         }
 
@@ -83,11 +83,11 @@ final readonly class UpsertAppointmentAction
         int|null $patientId,
         CarbonImmutable $start,
         CarbonImmutable $end,
-        ?Appointment $existing,
+        Appointment|null $existing,
     ): void {
         $query = Appointment::query()->where('patient_id', $patientId);
 
-        if ($existing !== null) {
+        if ($existing instanceof \Lightit\Appointments\Domain\Models\Appointment) {
             $query->where('id', '!=', $existing->id);
         }
 

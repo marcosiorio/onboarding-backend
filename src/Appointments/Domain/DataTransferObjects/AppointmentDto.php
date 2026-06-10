@@ -10,7 +10,7 @@ readonly class AppointmentDto
         public int $doctor_id,
         public int|null $patient_id = null,
         public int|null $clinic_id = null,
-        public string $start_date,
+        public string $start_date = '',
     ) {
     }
 }
