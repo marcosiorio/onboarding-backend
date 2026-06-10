@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
+use Lightit\Appointments\App\Controllers\DeleteAppointmentController;
 use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
 use Lightit\Appointments\App\Controllers\StoreAppointmentController;
@@ -103,5 +104,6 @@ Route::prefix('appointments')
         Route::prefix('{appointment}')->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
             Route::put('/', UpdateAppointmentController::class);
+            Route::delete('/', DeleteAppointmentController::class);
         })->whereNumber('appointment');
     });

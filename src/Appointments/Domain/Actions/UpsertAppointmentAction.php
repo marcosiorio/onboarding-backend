@@ -20,7 +20,10 @@ final readonly class UpsertAppointmentAction
         $doctorsWithClinics = Doctor::query()->with('clinics')
             ->find($appointmentDto->doctor_id);
 
-        if ($doctorsWithClinics == null || $doctorsWithClinics->clinics->doesntContain('id', $appointmentDto->clinic_id)) {
+        if (
+            $doctorsWithClinics == null
+            || $doctorsWithClinics->clinics->doesntContain('id', $appointmentDto->clinic_id)
+        ) {
             throw new Exception('Selected doctor doesn\'t work at the selected clinic');
         }
 
