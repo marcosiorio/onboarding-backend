@@ -15,7 +15,7 @@ final readonly class DeleteAppointmentAction
         $now = CarbonImmutable::now();
         $start = CarbonImmutable::parse($appointment->start_date);
 
-        if ($now->diffInHours($start) >= 48) {
+        if ($now->diffInHours($start) >= $appointment->getAppointmentCancelationTime()) {
             $appointment->deleteOrFail();
         } else {
             $appointment->status = AppointmentStatusEnum::CANCELLED->value;

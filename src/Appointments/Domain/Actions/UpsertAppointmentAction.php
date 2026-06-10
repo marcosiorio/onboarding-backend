@@ -14,55 +14,92 @@ use Lightit\Doctors\Domain\Models\Doctor;
 
 final readonly class UpsertAppointmentAction
 {
-    public function execute(AppointmentDto $appointmentDto): Appointment
+    public function execute(AppointmentDto $appointmentDto, ?Appointment $existing = null): Appointment
     {
-        $appointment = new Appointment();
-        $doctorsWithClinics = Doctor::query()->with('clinics')
-            ->find($appointmentDto->doctor_id);
+        $appointment = $existing ?? new Appointment();
 
-        if (
-            $doctorsWithClinics == null
-            || $doctorsWithClinics->clinics->doesntContain('id', $appointmentDto->clinic_id)
-        ) {
-            throw new Exception('Selected doctor doesn\'t work at the selected clinic');
-        }
+        $patientId = $existing?->patient_id ?? $appointmentDto->patient_id;
+        $clinicId  = $existing?->clinic_id  ?? $appointmentDto->clinic_id;
+
+        $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 
         $start = CarbonImmutable::parse($appointmentDto->start_date);
-        $end = $start->addMinutes($appointment->getDurationInMinutes());
+        $end   = $this->computeEndDate($start, $appointment);
 
-        $conflictDoctor = Appointment::query()->where('doctor_id', $appointmentDto->doctor_id)
-            ->where(function (Builder $query) use ($start, $end): void {
-                $query
-                    ->where('start_date', '<', $end)
-                    ->where('end_date', '>', $start)
-                    ->whereNot('status', AppointmentStatusEnum::CANCELLED);
-            })->exists();
+        $this->ensureNoDoctorConflict($appointmentDto->doctor_id, $start, $end, $existing);
+        $this->ensureNoPatientConflict($patientId, $start, $end, $existing);
 
-        if ($conflictDoctor) {
-            throw new Exception('Doctor is not available in this time, choose another one');
-        }
-
-        $conflictPatient = Appointment::query()->where('patient_id', $appointmentDto->patient_id)
-            ->where(function (\Illuminate\Contracts\Database\Query\Builder $query) use ($start, $end): void {
-                $query
-                    ->where('start_date', '<', $end)
-                    ->where('end_date', '>', $start)
-                    ->whereNot('status', AppointmentStatusEnum::CANCELLED);
-            })->exists();
-
-        if ($conflictPatient) {
-            throw new Exception('You have an overlapping appointment in this time, choose another one.');
-        }
-
-        $appointment->doctor_id = $appointmentDto->doctor_id;
-        $appointment->patient_id = $appointmentDto->patient_id;
-        $appointment->clinic_id = $appointmentDto->clinic_id;
+        $appointment->doctor_id  = $appointmentDto->doctor_id;
+        $appointment->patient_id = $patientId;
+        $appointment->clinic_id  = $clinicId;
         $appointment->start_date = $appointmentDto->start_date;
-        $appointment->end_date = $end->toDateTimeString();
-        $appointment->status = AppointmentStatusEnum::ACTIVE->value;
+        $appointment->end_date   = $end->toDateTimeString();
+        $appointment->status     = AppointmentStatusEnum::ACTIVE->value;
 
         $appointment->saveOrFail();
 
         return $appointment;
+    }
+
+    private function ensureDoctorWorksAtClinic(int $doctorId, int|null $clinicId): void
+    {
+        $doctor = Doctor::query()->with('clinics')->find($doctorId);
+
+        if ($doctor === null || $doctor->clinics->doesntContain('id', $clinicId)) {
+            throw new Exception('Selected doctor doesn\'t work at the selected clinic');
+        }
+    }
+
+    private function computeEndDate(CarbonImmutable $start, Appointment $appointment): CarbonImmutable
+    {
+        return $start->addMinutes($appointment->durationInMinutes);
+    }
+
+    private function ensureNoDoctorConflict(
+        int $doctorId,
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?Appointment $existing,
+    ): void {
+        $query = Appointment::query()->where('doctor_id', $doctorId);
+
+        if ($existing !== null) {
+            $query->where('id', '!=', $existing->id);
+        }
+
+        $conflict = $query->where(function (Builder $query) use ($start, $end): void {
+            $query
+                ->where('start_date', '<', $end)
+                ->where('end_date', '>', $start)
+                ->whereNot('status', AppointmentStatusEnum::CANCELLED);
+        })->exists();
+
+        if ($conflict) {
+            throw new Exception('Doctor is not available in this time, choose another one');
+        }
+    }
+
+    private function ensureNoPatientConflict(
+        int|null $patientId,
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?Appointment $existing,
+    ): void {
+        $query = Appointment::query()->where('patient_id', $patientId);
+
+        if ($existing !== null) {
+            $query->where('id', '!=', $existing->id);
+        }
+
+        $conflict = $query->where(function (Builder $query) use ($start, $end): void {
+            $query
+                ->where('start_date', '<', $end)
+                ->where('end_date', '>', $start)
+                ->whereNot('status', AppointmentStatusEnum::CANCELLED);
+        })->exists();
+
+        if ($conflict) {
+            throw new Exception('You have an overlapping appointment in this time, choose another one.');
+        }
     }
 }

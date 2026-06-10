@@ -17,7 +17,7 @@ final readonly class UpdateAppointmentController
         UpdateAppointmentRequest $request,
         UpsertAppointmentAction $action,
     ): JsonResponse {
-        $appointment = $action->execute($request->toDto($appointment));
+        $appointment = $action->execute($request->toDto(), $appointment);
 
         return AppointmentResource::make($appointment)
             ->response();

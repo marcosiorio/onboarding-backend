@@ -30,19 +30,17 @@ final class UpdateAppointmentRequest extends FormRequest
                 'integer',
                 Rule::exists(Doctor::class, 'id'),
             ],
-            self::PATIENT_ID => ['prohibited'],
-            self::CLINIC_ID => ['prohibited'],
             self::START_DATE => ['required', 'date', Rule::date()->todayOrAfter()],
             self::END_DATE => ['required', Rule::date()->after(self::START_DATE)],
         ];
     }
 
-    public function toDto(Appointment $appointment): AppointmentDto
+    public function toDto(): AppointmentDto
     {
         return new AppointmentDto(
             doctor_id: $this->integer(self::DOCTOR_ID),
-            patient_id: $appointment->patient_id,
-            clinic_id: $appointment->clinic_id,
+            patient_id: null,
+            clinic_id: null,
             start_date: $this->string(self::START_DATE)->toString(),
         );
     }

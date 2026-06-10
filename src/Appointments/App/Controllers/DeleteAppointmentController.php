@@ -17,7 +17,6 @@ final readonly class DeleteAppointmentController
     ): JsonResponse {
         $appointment = $action->execute($appointment);
 
-        return AppointmentResource::make($appointment)
-            ->response()->setStatusCode(JsonResponse::HTTP_NO_CONTENT);
+        return response()->json(status:JsonResponse::HTTP_NO_CONTENT);
     }
 }
