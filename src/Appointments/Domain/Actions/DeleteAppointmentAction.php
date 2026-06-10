@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\Domain\Actions;
 
 use Carbon\CarbonImmutable;
@@ -13,11 +15,12 @@ final readonly class DeleteAppointmentAction
         $now = CarbonImmutable::now();
         $start = CarbonImmutable::parse($appointment->start_date);
 
-        if($now->diffInHours($start) >= 48){
+        if ($now->diffInHours($start) >= 48) {
             $appointment->deleteOrFail();
-        }else{
+        } else {
             $appointment->status = AppointmentStatusEnum::CANCELLED->value;
         }
+
         return $appointment;
     }
 }

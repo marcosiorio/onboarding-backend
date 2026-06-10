@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\App\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -18,5 +20,4 @@ final readonly class DeleteAppointmentController
         return AppointmentResource::make($appointment)
             ->response()->setStatusCode(JsonResponse::HTTP_NO_CONTENT);
     }
-
 }
