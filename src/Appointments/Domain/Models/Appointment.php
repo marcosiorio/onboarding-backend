@@ -13,17 +13,18 @@ use Lightit\Patients\Domain\Models\Patient;
 
 /**
  * @property int                          $id
- * @property int                          $doctor_id
- * @property int                          $patient_id
- * @property int                          $clinic_id
+ * @property int                         $doctor_id
+ * @property int|null                         $patient_id
+ * @property int|null                          $clinic_id
  * @property string                       $start_date
  * @property string                       $end_date
  * @property \Carbon\CarbonImmutable      $created_at
  * @property \Carbon\CarbonImmutable      $updated_at
+ * @property string                       $status
  * @property \Carbon\CarbonImmutable|null $deleted_at
- * @property-read Clinic|null $clinic
- * @property-read Doctor|null $doctor
- * @property-read Patient|null $patient
+ * @property-read Clinic|null $clinics
+ * @property-read Doctor|null $doctors
+ * @property-read Patient|null $patients
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
@@ -37,6 +38,7 @@ use Lightit\Patients\Domain\Models\Patient;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withoutTrashed()
@@ -47,8 +49,16 @@ class Appointment extends Model
 {
     use SoftDeletes;
 
+    protected const int HOURS_PER_DAY = 24 * 2;
+
     #[\Override]
     protected $guarded = ['id'];
+
+    public int $durationInMinutes = 30 {
+        get {
+            return $this->durationInMinutes;
+        }
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
@@ -75,5 +85,10 @@ class Appointment extends Model
     public function doctors(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function getAppointmentCancelationTime(): int
+    {
+        return self::HOURS_PER_DAY;
     }
 }

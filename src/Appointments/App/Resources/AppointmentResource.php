@@ -22,6 +22,7 @@ class AppointmentResource extends JsonResource
             'clinic_id' => $this->clinic_id,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'status' => $this->status,
         ];
     }
 }
