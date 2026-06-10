@@ -11,7 +11,6 @@ readonly class AppointmentDto
         public int $patient_id,
         public int $clinic_id,
         public string $start_date,
-        public string $end_date,
     ) {
     }
 }

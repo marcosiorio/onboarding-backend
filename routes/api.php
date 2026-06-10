@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
 use Lightit\Appointments\App\Controllers\StoreAppointmentController;
+use Lightit\Appointments\App\Controllers\UpdateAppointmentController;
 use Lightit\Clinics\App\Controllers\DeleteClinicController;
 use Lightit\Clinics\App\Controllers\GetClinicController;
 use Lightit\Clinics\App\Controllers\ListClinicController;
@@ -101,5 +102,6 @@ Route::prefix('appointments')
         Route::post('/', StoreAppointmentController::class);
         Route::prefix('{appointment}')->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
+            Route::put('/', UpdateAppointmentController::class);
         })->whereNumber('appointment');
     });

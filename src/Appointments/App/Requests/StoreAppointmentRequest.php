@@ -11,16 +11,12 @@ use Lightit\Clinics\Domain\Models\Clinic;
 use Lightit\Doctors\Domain\Models\Doctor;
 use Lightit\Patients\Domain\Models\Patient;
 
-final class UpsertAppointmentRequest extends FormRequest
+final class StoreAppointmentRequest extends FormRequest
 {
     public const string DOCTOR_ID = 'doctor_id';
-
     public const string PATIENT_ID = 'patient_id';
-
     public const string CLINIC_ID = 'clinic_id';
-
     public const string START_DATE = 'start_date';
-
     public const string END_DATE = 'end_date';
 
     public function rules(): array
