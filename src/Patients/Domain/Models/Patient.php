@@ -49,6 +49,7 @@ class Patient extends Authenticatable implements JWTSubject
     #[\Override]
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
