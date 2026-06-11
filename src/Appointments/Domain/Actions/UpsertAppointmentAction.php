@@ -21,6 +21,10 @@ final readonly class UpsertAppointmentAction
         $patientId = $appointmentDto->patient_id ?? $existing?->patient_id;
         $clinicId = $appointmentDto->clinic_id ?? $existing?->clinic_id;
 
+        if ($patientId === null || $clinicId === null) {
+            throw new Exception('patient_id and clinic_id are required');
+        }
+
         $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 
         $start = CarbonImmutable::parse($appointmentDto->start_date);
