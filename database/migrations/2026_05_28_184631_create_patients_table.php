@@ -20,12 +20,6 @@ return new class extends Migration
             $table->timestamp('updated_at');
             $table->softDeletes();
         });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table): void {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->useCurrent();
-        });
     }
 
     public function down(): void

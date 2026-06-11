@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
-use Lightit\Appointments\App\Controllers\DeleteAppointmentController;
 use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
-use Lightit\Appointments\App\Controllers\StoreAppointmentController;
-use Lightit\Appointments\App\Controllers\UpdateAppointmentController;
 use Lightit\Authentication\App\Controllers\LoginController;
 use Lightit\Authentication\App\Controllers\LogoutController;
 use Lightit\Authentication\App\Controllers\RefreshController;
@@ -43,6 +40,14 @@ use Lightit\Users\App\Controllers\UpdateUserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::middleware('auth:sanctum')
+    ->get('/me', fn(
+        #[CurrentUser] $user
+    ) => response()->json([
+        'data' => $user,
+    ]));
+
 Route::prefix('auth')->group(static function (): void {
     Route::post('login', LoginController::class);
     Route::middleware(['auth'])->group(static function (): void {
@@ -50,6 +55,22 @@ Route::prefix('auth')->group(static function (): void {
         Route::post('refresh', RefreshController::class);
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Users Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('users')
+    ->group(static function (): void {
+        Route::get('/', ListUserController::class);
+        Route::post('/', StoreUserController::class);
+        Route::prefix('{user}')->group(static function (): void {
+            Route::get('/', GetUserController::class);
+            Route::put('/', UpdateUserController::class);
+            Route::delete('/', DeleteUserController::class);
+        })->whereNumber('user');
+    });
 
 Route::prefix('doctors')
     ->group(static function (): void {
@@ -59,7 +80,7 @@ Route::prefix('doctors')
             Route::get('/', GetDoctorController::class);
             Route::put('/', UpdateDoctorController::class);
             Route::delete('/', DeleteDoctorController::class);
-        })->whereNumber('doctor');
+        });
     });
 
 Route::prefix('patients')
@@ -70,7 +91,7 @@ Route::prefix('patients')
             Route::get('/', GetPatientController::class);
             Route::put('/', UpdatePatientController::class);
             Route::delete('/', DeletePatientController::class);
-        })->whereNumber('patient');
+        });
     });
 
 Route::prefix('clinics')
@@ -81,16 +102,13 @@ Route::prefix('clinics')
             Route::get('/', GetClinicController::class);
             Route::put('/', UpdateClinicController::class);
             Route::delete('/', DeleteClinicController::class);
-        })->whereNumber('clinic');
+        });
     });
 
 Route::prefix('appointments')
     ->group(static function (): void {
         Route::get('/', ListAppointmentController::class);
-        Route::post('/', StoreAppointmentController::class);
         Route::prefix('{appointment}')->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
-            Route::put('/', UpdateAppointmentController::class);
-            Route::delete('/', DeleteAppointmentController::class);
-        })->whereNumber('appointment');
+        });
     });
