@@ -9,6 +9,9 @@ use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
 use Lightit\Appointments\App\Controllers\StoreAppointmentController;
 use Lightit\Appointments\App\Controllers\UpdateAppointmentController;
+use Lightit\Authentication\App\Controllers\LoginController;
+use Lightit\Authentication\App\Controllers\LogoutController;
+use Lightit\Authentication\App\Controllers\RefreshController;
 use Lightit\Clinics\App\Controllers\DeleteClinicController;
 use Lightit\Clinics\App\Controllers\GetClinicController;
 use Lightit\Clinics\App\Controllers\ListClinicController;
@@ -40,29 +43,13 @@ use Lightit\Users\App\Controllers\UpdateUserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')
-    ->get('/me', fn(
-        #[CurrentUser] $user
-    ) => response()->json([
-        'data' => $user,
-    ]));
-
-/*
-|--------------------------------------------------------------------------
-| Users Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('users')
-    ->group(static function (): void {
-        Route::get('/', ListUserController::class);
-        Route::post('/', StoreUserController::class);
-        Route::prefix('{user}')->group(static function (): void {
-            Route::get('/', GetUserController::class);
-            Route::put('/', UpdateUserController::class);
-            Route::delete('/', DeleteUserController::class);
-        })->whereNumber('user');
+Route::prefix('auth')->group(static function (): void {
+    Route::post('login', LoginController::class);
+    Route::middleware(['auth'])->group(static function (): void {
+        Route::post('logout', LogoutController::class);
+        Route::post('refresh', RefreshController::class);
     });
+});
 
 Route::prefix('doctors')
     ->group(static function (): void {

@@ -19,7 +19,7 @@ final readonly class UpsertAppointmentAction
         $appointment = $existing ?? new Appointment();
 
         $patientId = $appointmentDto->patient_id ?? $existing?->patient_id;
-        $clinicId  = $appointmentDto->clinic_id  ?? $existing?->clinic_id;
+        $clinicId = $appointmentDto->clinic_id ?? $existing?->clinic_id;
 
         $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 

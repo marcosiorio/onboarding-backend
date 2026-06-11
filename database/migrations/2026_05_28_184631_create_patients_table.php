@@ -14,14 +14,23 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
             $table->softDeletes();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table): void {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('patients');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };

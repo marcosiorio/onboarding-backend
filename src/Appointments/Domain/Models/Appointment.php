@@ -13,9 +13,9 @@ use Lightit\Patients\Domain\Models\Patient;
 
 /**
  * @property int                          $id
- * @property int                         $doctor_id
- * @property int|null                         $patient_id
- * @property int|null                          $clinic_id
+ * @property int                          $doctor_id
+ * @property int                          $patient_id
+ * @property int                          $clinic_id
  * @property string                       $start_date
  * @property string                       $end_date
  * @property \Carbon\CarbonImmutable      $created_at
