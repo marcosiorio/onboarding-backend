@@ -117,7 +117,6 @@ Route::prefix('appointments')
             ->whereNumber('appointment')
             ->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
-
             Route::put('/', UpdateAppointmentController::class);
             Route::delete('/', DeleteAppointmentController::class);
         });

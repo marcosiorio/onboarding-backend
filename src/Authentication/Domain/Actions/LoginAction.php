@@ -28,7 +28,7 @@ final class LoginAction
         $guard = $this->factory->guard();
 
         if (! $token = $guard->attempt($credentials->toArray())) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Not logged in');
         }
 
         /** @var string $token */
