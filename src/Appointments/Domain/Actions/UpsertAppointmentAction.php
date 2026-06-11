@@ -18,12 +18,8 @@ final readonly class UpsertAppointmentAction
     {
         $appointment = $existing ?? new Appointment();
 
-        $patientId = $appointmentDto->patient_id ?? $existing?->patient_id;
-        $clinicId = $appointmentDto->clinic_id ?? $existing?->clinic_id;
-
-        if ($patientId === null || $clinicId === null) {
-            throw new Exception('patient_id and clinic_id are required');
-        }
+        $patientId = $appointmentDto->patient_id ?? $appointment->patient_id;
+        $clinicId = $appointmentDto->clinic_id ?? $appointment->clinic_id;
 
         $this->ensureDoctorWorksAtClinic($appointmentDto->doctor_id, $clinicId);
 

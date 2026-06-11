@@ -17,7 +17,7 @@ final readonly class UpdatePatientController
         UpsertPatientRequest $request,
         UpsertPatientAction $action,
     ): JsonResponse {
-        $patient = $action->execute($request->getName(), $request->getEmail(), $patient);
+        $patient = $action->execute($request->getName(), $request->getEmail(), $request->getPassword(), $patient);
 
         return PatientResource::make($patient)
             ->response();

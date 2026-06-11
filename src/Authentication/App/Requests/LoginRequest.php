@@ -6,19 +6,23 @@ namespace Lightit\Authentication\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Email;
+use Illuminate\Validation\Rules\Password;
 use Lightit\Authentication\Domain\DataTransferObjects\CredentialsDto;
 
 class LoginRequest extends FormRequest
 {
-    public const EMAIL = 'email';
+    public const string EMAIL = 'email';
 
-    public const PASSWORD = 'password';
+    public const string PASSWORD = 'password';
 
     public function rules(): array
     {
         return [
             self::EMAIL => ['required', Email::default()],
-            self::PASSWORD => ['required'],
+            self::PASSWORD => [
+                'required',
+                Password::default(),
+            ],
         ];
     }
 

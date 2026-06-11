@@ -15,7 +15,6 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property string                       $name
  * @property string                       $email
  * @property string                       $password
- * @property string|null                  $remember_token
  * @property \Carbon\CarbonImmutable      $created_at
  * @property \Carbon\CarbonImmutable      $updated_at
  * @property \Carbon\CarbonImmutable|null $deleted_at
@@ -32,7 +31,6 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient withoutTrashed()
@@ -49,7 +47,6 @@ class Patient extends Authenticatable implements JWTSubject
     #[\Override]
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**

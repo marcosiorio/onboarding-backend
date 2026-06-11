@@ -6,7 +6,7 @@ namespace Lightit\Authentication\Domain\Actions;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Lightit\Authentication\Domain\DataTransferObjects\LoginDto;
-use Lightit\Users\Domain\Models\User;
+use Lightit\Patients\Domain\Models\Patient;
 use PHPOpenSourceSaver\JWTAuth\Factory as JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 
@@ -18,13 +18,13 @@ final class LoginByUserAction
     ) {
     }
 
-    public function execute(User $user): LoginDto
+    public function execute(Patient $patient): LoginDto
     {
         /** @var JWTGuard $guard */
         $guard = $this->factory->guard();
 
         /** @var string $token */
-        $token = $guard->tokenById(id: $user->getKey());
+        $token = $guard->tokenById(id: $patient->getKey());
 
         return new LoginDto(
             accessToken: $token,

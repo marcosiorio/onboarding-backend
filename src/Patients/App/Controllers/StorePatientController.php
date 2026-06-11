@@ -19,7 +19,7 @@ final readonly class StorePatientController
     )]
     public function __invoke(UpsertPatientRequest $request, UpsertPatientAction $action): JsonResponse
     {
-        $patient = $action->execute($request->getName(), $request->getEmail());
+        $patient = $action->execute($request->getName(), $request->getEmail(), $request->getPassword());
 
         return PatientResource::make($patient)
             ->response()
