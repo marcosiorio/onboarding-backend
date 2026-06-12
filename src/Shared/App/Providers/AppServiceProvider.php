@@ -52,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
             $rateLimiter = Config::integer('app.rate.limit');
 
             return Limit::perMinute($rateLimiter)
+                /**
+                 * @phpstan-ignore-next-line
+                 */
                 ->by($request->user()?->id ?: $request->ip());
         });
 

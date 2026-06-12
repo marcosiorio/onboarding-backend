@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         ClinicFactory::new()
             ->hasAttached($doctors->random(rand(1, 3)))
             ->createMany(35);
+
         PatientFactory::new()->createMany(35);
 
         $patients = Patient::all();

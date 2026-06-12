@@ -9,6 +9,9 @@ use Lightit\Appointments\App\Controllers\GetAppointmentController;
 use Lightit\Appointments\App\Controllers\ListAppointmentController;
 use Lightit\Appointments\App\Controllers\StoreAppointmentController;
 use Lightit\Appointments\App\Controllers\UpdateAppointmentController;
+use Lightit\Authentication\App\Controllers\LoginController;
+use Lightit\Authentication\App\Controllers\LogoutController;
+use Lightit\Authentication\App\Controllers\RefreshController;
 use Lightit\Clinics\App\Controllers\DeleteClinicController;
 use Lightit\Clinics\App\Controllers\GetClinicController;
 use Lightit\Clinics\App\Controllers\ListClinicController;
@@ -47,6 +50,14 @@ Route::middleware('auth:sanctum')
     ) => response()->json([
         'data' => $user,
     ]));
+
+Route::prefix('auth')->group(static function (): void {
+    Route::post('/login', LoginController::class);
+    Route::middleware('auth:api')->group(static function (): void {
+        Route::post('/logout', LogoutController::class);
+        Route::post('/refresh', RefreshController::class);
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -98,12 +109,15 @@ Route::prefix('clinics')
     });
 
 Route::prefix('appointments')
+    ->middleware('auth:api')
     ->group(static function (): void {
         Route::get('/', ListAppointmentController::class);
         Route::post('/', StoreAppointmentController::class);
-        Route::prefix('{appointment}')->group(static function(): void {
+        Route::prefix('{appointment}')
+            ->whereNumber('appointment')
+            ->group(static function(): void {
             Route::get('/', GetAppointmentController::class);
             Route::put('/', UpdateAppointmentController::class);
             Route::delete('/', DeleteAppointmentController::class);
-        })->whereNumber('appointment');
+        });
     });
