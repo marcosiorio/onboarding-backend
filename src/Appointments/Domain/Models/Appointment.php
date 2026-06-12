@@ -22,9 +22,9 @@ use Lightit\Patients\Domain\Models\Patient;
  * @property \Carbon\CarbonImmutable      $updated_at
  * @property string                       $status
  * @property \Carbon\CarbonImmutable|null $deleted_at
- * @property-read Clinic|null $clinics
- * @property-read Doctor|null $doctors
- * @property-read Patient|null $patients
+ * @property-read Clinic $clinic
+ * @property-read Doctor $doctor
+ * @property-read Patient $patient
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
@@ -64,7 +64,7 @@ class Appointment extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Patient, $this>
      *                                                                           /
      */
-    public function patients(): BelongsTo
+    public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
@@ -73,7 +73,7 @@ class Appointment extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Clinic, $this>
      *                                                                          /
      */
-    public function clinics(): BelongsTo
+    public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
@@ -82,7 +82,7 @@ class Appointment extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Doctor, $this>
      *                                                                          /
      */
-    public function doctors(): BelongsTo
+    public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }

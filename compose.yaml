@@ -25,6 +25,7 @@ services:
             - pgsql
             - redis
             - minio
+            - mailpit
     pgsql:
         image: 'postgres:18-alpine'
         ports:
@@ -86,6 +87,15 @@ services:
                 - local
             retries: 3
             timeout: 5s
+    mailpit:
+        image: 'axllent/mailpit'
+        ports:
+            - '8025:8025'
+            - '${MAIL_PORT}:1025'
+        volumes:
+            - mailpit-data:/data
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
@@ -96,3 +106,4 @@ volumes:
         driver: local
     sail-minio:
         driver: local
+    mailpit-data:

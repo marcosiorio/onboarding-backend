@@ -35,7 +35,6 @@ final class StoreAppointmentRequest extends FormRequest
             self::PATIENT_ID => ['required', 'integer',
                 Rule::exists(Patient::class, 'id')],
             self::START_DATE => ['required', 'date', Rule::date()->todayOrAfter()],
-            self::END_DATE => ['required', Rule::date()->after(self::START_DATE)],
         ];
     }
 

@@ -7,6 +7,7 @@ namespace Lightit\Patients\Domain\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Lightit\Appointments\Domain\Models\Appointment;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
@@ -20,6 +21,8 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Appointment> $appointments
  * @property-read int|null $appointments_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient newQuery()
@@ -40,6 +43,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class Patient extends Authenticatable implements JWTSubject
 {
     use SoftDeletes;
+    use Notifiable;
 
     #[\Override]
     protected $guarded = ['id'];
