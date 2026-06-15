@@ -7,6 +7,7 @@ namespace Lightit\Appointments\Domain\Actions;
 use Carbon\CarbonImmutable;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Lightit\Appointments\App\Notifications\AppointmentNotification;
 use Lightit\Appointments\Domain\DataTransferObjects\AppointmentDto;
 use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
 use Lightit\Appointments\Domain\Models\Appointment;
@@ -37,6 +38,10 @@ final readonly class UpsertAppointmentAction
         $appointment->status = AppointmentStatusEnum::ACTIVE->value;
 
         $appointment->saveOrFail();
+
+        $appointment->load(['doctor', 'patient', 'clinic']);
+
+        $appointment->patient->notify(new AppointmentNotification($appointment));
 
         return $appointment;
     }
