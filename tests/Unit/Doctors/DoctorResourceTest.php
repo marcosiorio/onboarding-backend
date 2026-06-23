@@ -13,7 +13,8 @@ it('has the correct structure without clinics', function (): void {
     $doctor = DoctorFactory::new()->createOne();
     /** @var array $doctorResourceResponseData */
     $doctorResourceResponseData = DoctorResource::make($doctor)->response()->getData(true);
-    $doctorResourceAttributes   = Arr::get($doctorResourceResponseData, 'data');
+    /** @var array<string, mixed> $doctorResourceAttributes */
+    $doctorResourceAttributes = Arr::get($doctorResourceResponseData, 'data');
     expect(array_keys($doctorResourceAttributes))->toEqual($expectedKeys);
 });
 
@@ -26,6 +27,7 @@ it('has the correct structure with clinics loaded', function (): void {
 
     /** @var array $doctorResourceResponseData */
     $doctorResourceResponseData = DoctorResource::make($doctor)->response()->getData(true);
-    $doctorResourceAttributes   = Arr::get($doctorResourceResponseData, 'data');
+    /** @var array<string, mixed> $doctorResourceAttributes */
+    $doctorResourceAttributes = Arr::get($doctorResourceResponseData, 'data');
     expect(array_keys($doctorResourceAttributes))->toEqual($expectedKeys);
 });

@@ -12,6 +12,7 @@ it('has the correct structure', function (): void {
     $clinic = ClinicFactory::new()->createOne()->loadCount('doctors');
     /** @var array $clinicResourceResponseData */
     $clinicResourceResponseData = ClinicResource::make($clinic)->response()->getData(true);
-    $clinicResourceAttributes   = Arr::get($clinicResourceResponseData, 'data');
+    /** @var array<string, mixed> $clinicResourceAttributes */
+    $clinicResourceAttributes = Arr::get($clinicResourceResponseData, 'data');
     expect(array_keys($clinicResourceAttributes))->toEqual($expectedKeys);
 });

@@ -12,6 +12,7 @@ it('has the correct structure', function (): void {
     $patient = PatientFactory::new()->createOne();
     /** @var array $patientResourceResponseData */
     $patientResourceResponseData = PatientResource::make($patient)->response()->getData(true);
-    $patientResourceAttributes   = Arr::get($patientResourceResponseData, 'data');
+    /** @var array<string, mixed> $patientResourceAttributes */
+    $patientResourceAttributes = Arr::get($patientResourceResponseData, 'data');
     expect(array_keys($patientResourceAttributes))->toEqual($expectedKeys);
 });
