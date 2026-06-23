@@ -6,13 +6,13 @@ use Database\Factories\ClinicFactory;
 use Lightit\Clinics\Domain\Models\Clinic;
 use function Pest\Laravel\putJson;
 
-describe('update clinic info', function () {
-    it('successfully updates clinic info', function () {
+describe('update clinic info', function (): void {
+    it('successfully updates clinic info', function (): void {
         $clinic = ClinicFactory::new()->createOne();
         $newClinicInfo = new Clinic();
 
         $newClinicInfo->id = $clinic->id;
-        $newClinicInfo->name = "Favaloro";
+        $newClinicInfo->name = 'Favaloro';
         $newClinicInfo->address = $clinic->address;
 
         $response = putJson("/api/clinics/{$clinic->id}", $newClinicInfo->toArray());
@@ -20,7 +20,7 @@ describe('update clinic info', function () {
             ->assertJsonPath('data.name', 'Favaloro');
     });
 
-    it('fails when name is missing', function () {
+    it('fails when name is missing', function (): void {
         $clinic = ClinicFactory::new()->createOne();
 
         $response = putJson("/api/clinics/{$clinic->id}", ['address' => 'Some Address 123']);
@@ -28,7 +28,7 @@ describe('update clinic info', function () {
             ->assertJsonValidationErrorFor('name', 'error.fields');
     });
 
-    it('fails when address is missing', function () {
+    it('fails when address is missing', function (): void {
         $clinic = ClinicFactory::new()->createOne();
 
         $response = putJson("/api/clinics/{$clinic->id}", ['name' => 'Valid Name']);
@@ -36,7 +36,7 @@ describe('update clinic info', function () {
             ->assertJsonValidationErrorFor('address', 'error.fields');
     });
 
-    it('fails when both name and address are missing', function () {
+    it('fails when both name and address are missing', function (): void {
         $clinic = ClinicFactory::new()->createOne();
 
         $response = putJson("/api/clinics/{$clinic->id}", []);

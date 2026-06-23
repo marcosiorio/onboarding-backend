@@ -18,7 +18,7 @@ final class PatientResourceTest extends TestCase
         $patient = PatientFactory::new()->createOne();
         /** @var array $patientResourceResponseData */
         $patientResourceResponseData = PatientResource::make($patient)->response()->getData(true);
-        $patientResourceAttributes   = Arr::get($patientResourceResponseData, 'data');
+        $patientResourceAttributes = Arr::get($patientResourceResponseData, 'data');
         expect(array_keys($patientResourceAttributes))->toEqual($expectedKeys);
     }
 }

@@ -7,6 +7,7 @@ namespace Lightit\Appointments\Domain\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
 use Lightit\Clinics\Domain\Models\Clinic;
 use Lightit\Doctors\Domain\Models\Doctor;
 use Lightit\Patients\Domain\Models\Patient;
@@ -20,7 +21,7 @@ use Lightit\Patients\Domain\Models\Patient;
  * @property string                       $end_date
  * @property \Carbon\CarbonImmutable      $created_at
  * @property \Carbon\CarbonImmutable      $updated_at
- * @property string                       $status
+ * @property AppointmentStatusEnum                       $status
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property-read Clinic $clinic
  * @property-read Doctor $doctor
@@ -58,6 +59,13 @@ class Appointment extends Model
         get {
             return $this->durationInMinutes;
         }
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => AppointmentStatusEnum::class,
+        ];
     }
 
     /**

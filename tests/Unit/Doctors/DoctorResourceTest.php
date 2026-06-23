@@ -19,7 +19,7 @@ final class DoctorResourceTest extends TestCase
         $doctor = DoctorFactory::new()->createOne();
         /** @var array $doctorResourceResponseData */
         $doctorResourceResponseData = DoctorResource::make($doctor)->response()->getData(true);
-        $doctorResourceAttributes   = Arr::get($doctorResourceResponseData, 'data');
+        $doctorResourceAttributes = Arr::get($doctorResourceResponseData, 'data');
         expect(array_keys($doctorResourceAttributes))->toEqual($expectedKeys);
     }
 
@@ -33,7 +33,7 @@ final class DoctorResourceTest extends TestCase
 
         /** @var array $doctorResourceResponseData */
         $doctorResourceResponseData = DoctorResource::make($doctor)->response()->getData(true);
-        $doctorResourceAttributes   = Arr::get($doctorResourceResponseData, 'data');
+        $doctorResourceAttributes = Arr::get($doctorResourceResponseData, 'data');
         expect(array_keys($doctorResourceAttributes))->toEqual($expectedKeys);
     }
 }

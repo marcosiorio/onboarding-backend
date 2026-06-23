@@ -18,9 +18,9 @@ final readonly class DeleteAppointmentAction
         if ($now->diffInHours($start) >= $appointment->getAppointmentCancelationTime()) {
             $appointment->deleteOrFail();
         } else {
-            $appointment->status = AppointmentStatusEnum::CANCELLED->value;
+            $appointment->status = AppointmentStatusEnum::CANCELLED;
+            $appointment->saveOrFail();
         }
-
         return $appointment;
     }
 }

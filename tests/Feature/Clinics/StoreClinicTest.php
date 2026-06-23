@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Database\Factories\ClinicFactory;
 use Lightit\Clinics\Domain\Models\Clinic;
-use function Pest\Laravel\postJson;
 use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\postJson;
 
 describe('store clinic', function (): void {
     it('creates a new clinic', function (): void {
@@ -18,7 +18,7 @@ describe('store clinic', function (): void {
 
     it('fails with empty clinic data', function (): void {
         $clinicData = [];
-        $response =  postJson(url('/api/clinics'), $clinicData);
+        $response = postJson(url('/api/clinics'), $clinicData);
         $response
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['name', 'address'], 'error.fields');
