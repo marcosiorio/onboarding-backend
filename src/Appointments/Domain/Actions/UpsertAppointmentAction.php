@@ -35,7 +35,7 @@ final readonly class UpsertAppointmentAction
         $appointment->clinic_id = $clinicId;
         $appointment->start_date = $appointmentDto->start_date;
         $appointment->end_date = $end->toDateTimeString();
-        $appointment->status = AppointmentStatusEnum::ACTIVE->value;
+        $appointment->status = AppointmentStatusEnum::ACTIVE;
 
         $appointment->saveOrFail();
 
