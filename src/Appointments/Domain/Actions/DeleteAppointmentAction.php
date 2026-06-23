@@ -21,6 +21,7 @@ final readonly class DeleteAppointmentAction
             $appointment->status = AppointmentStatusEnum::CANCELLED;
             $appointment->saveOrFail();
         }
+
         return $appointment;
     }
 }

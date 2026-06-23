@@ -21,7 +21,7 @@ use Lightit\Patients\Domain\Models\Patient;
  * @property string                       $end_date
  * @property \Carbon\CarbonImmutable      $created_at
  * @property \Carbon\CarbonImmutable      $updated_at
- * @property AppointmentStatusEnum                       $status
+ * @property AppointmentStatusEnum        $status
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property-read Clinic $clinic
  * @property-read Doctor $doctor

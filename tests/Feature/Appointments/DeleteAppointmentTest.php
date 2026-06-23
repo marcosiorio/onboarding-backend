@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
 use Database\Factories\AppointmentFactory;
 use Database\Factories\PatientFactory;
 use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
@@ -27,7 +25,7 @@ describe('Delete appointment endpoint', function (): void {
     it('should set status cancelled when cancellation time < 48h', function (): void {
         $appt = AppointmentFactory::new()->startingInHours(24)->createOne();
 
-        deleteJson("/api/appointments/{$appt->id}")
+        deleteJson("/api/appointments/$appt->id")
             ->assertNoContent();
 
         expect($appt->refresh()->status)->toBe(AppointmentStatusEnum::CANCELLED);
@@ -43,7 +41,7 @@ describe('Delete appointment endpoint (unauthenticated)', function (): void {
     it('returns 401 when unauthenticated', function (): void {
         $appt = AppointmentFactory::new()->startingInHours(49)->createOne();
 
-        deleteJson("/api/appointments/{$appt->id}")
+        deleteJson("/api/appointments/$appt->id")
             ->assertUnauthorized();
     });
 });
