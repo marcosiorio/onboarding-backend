@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories;
+
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
+use Lightit\Appointments\Domain\Models\Appointment;
+
+/**
+ * @extends Factory<Appointment>
+ */
+class AppointmentFactory extends Factory
+{
+    protected $model = Appointment::class;
+
+    public function definition(): array
+    {
+        $startDate = CarbonImmutable::now()->addDays(7);
+
+        return [
+            'clinic_id'  => ClinicFactory::new(),
+            'doctor_id'  => DoctorFactory::new(),
+            'patient_id' => PatientFactory::new(),
+            'start_date' => $startDate,
+            'end_date'   => $startDate->addMinutes(30),
+            'status'     => AppointmentStatusEnum::ACTIVE->value,
+        ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Appointment $appointment): void {
+            $appointment->doctor->clinics()->syncWithoutDetaching([$appointment->clinic_id]);
+        });
+    }
+
+    public function startingInHours(int $hours): static
+    {
+        $startDate = CarbonImmutable::now()->addHours($hours);
+
+        return $this->state([
+            'start_date' => $startDate,
+            'end_date'   => $startDate->addMinutes(30),
+        ]);
+    }
+}
