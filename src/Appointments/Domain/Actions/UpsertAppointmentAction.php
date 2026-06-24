@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lightit\Appointments\Domain\Actions;
 
 use Carbon\CarbonImmutable;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Lightit\Appointments\App\Notifications\AppointmentNotification;
 use Lightit\Appointments\Domain\DataTransferObjects\AppointmentDto;
@@ -14,7 +13,6 @@ use Lightit\Appointments\Domain\Models\Appointment;
 use Lightit\Doctors\Domain\Models\Doctor;
 use Lightit\Shared\App\Exceptions\Http\DoctorNotWorkInTheClinicException;
 use Lightit\Shared\App\Exceptions\Http\OverlappingAppointmentTimesException;
-use OverlappingAppointmentTimesExpection;
 
 final readonly class UpsertAppointmentAction
 {
@@ -107,7 +105,9 @@ final readonly class UpsertAppointmentAction
         })->exists();
 
         if ($conflict) {
-            throw new OverlappingAppointmentTimesException('You have an overlapping appointment in this time, choose another one.');
+            throw new OverlappingAppointmentTimesException(
+                'You have an overlapping appointment in this time, choose another one.'
+            );
         }
     }
 }

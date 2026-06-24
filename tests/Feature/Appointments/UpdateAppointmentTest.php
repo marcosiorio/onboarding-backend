@@ -9,8 +9,6 @@ use Lightit\Appointments\App\Resources\AppointmentResource;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\putJson;
 
-
-
 describe('update appointment', function (): void {
     beforeEach(function (): void {
         actingAs(PatientFactory::new()->createOne(), 'api');

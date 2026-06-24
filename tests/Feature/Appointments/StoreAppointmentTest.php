@@ -4,34 +4,31 @@ declare(strict_types=1);
 
 use Database\Factories\AppointmentFactory;
 use Database\Factories\ClinicFactory;
-use Database\Factories\DoctorFactory;
 use Database\Factories\PatientFactory;
-use Lightit\Appointments\App\Resources\AppointmentResource;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;
 
-describe('store appointments', function () {
-    beforeEach(function () {
+describe('store appointments', function (): void {
+    beforeEach(function (): void {
         $authUser = PatientFactory::new()->createOne();
         actingAs($authUser, 'api');
     });
-    it('successfully store an appointment', function () {
+    it('successfully store an appointment', function (): void {
         $appt = AppointmentFactory::new()->make()->toArray();
 
-      postJson(url('/api/appointments'), $appt)
-          ->assertCreated();
-      assertDatabaseCount('appointments', 1);
+        postJson(url('/api/appointments'), $appt)
+            ->assertCreated();
+        assertDatabaseCount('appointments', 1);
     });
 
-    it('fails with empty data', function() {
+    it('fails with empty data', function (): void {
         $appt = [];
 
-        postJson(url('/api/appointments'), $appt)
-            ->assertStatus(422);
+        postJson(url('/api/appointments'), $appt)->assertUnprocessable();
     });
 
-    it('fails with doctor overlapping times', function () {
+    it('fails with doctor overlapping times', function (): void {
         $existingAppt = AppointmentFactory::new()->createOne();
         $newAppt = AppointmentFactory::new()->make([
             'doctor_id'  => $existingAppt->doctor_id,
@@ -45,7 +42,7 @@ describe('store appointments', function () {
             ->assertJsonPath('error.message', 'Doctor is not available in this time, choose another one');
     });
 
-    it('fails when overlapping time for patient', function () {
+    it('fails when overlapping time for patient', function (): void {
         $existingAppt = AppointmentFactory::new()->createOne();
         $newAppt = AppointmentFactory::new()->make([
             'patient_id'  => $existingAppt->patient_id,
@@ -58,11 +55,11 @@ describe('store appointments', function () {
             ->assertJsonPath('error.message', 'You have an overlapping appointment in this time, choose another one.');
     });
 
-    it('fails when doctor doenst work in that clinic', function () {
-        $appt = AppointmentFactory::new()->make();
+    it('fails when doctor doenst work in that clinic', function (): void {
+        $appt = AppointmentFactory::new()->make()->toArray();
         $appt['clinic_id'] = ClinicFactory::new()->createOne()->id;
 
-        postJson(url('/api/appointments'), $appt->toArray())
+        postJson(url('/api/appointments'), $appt)
             ->assertConflict()
             ->assertJsonPath('error.code', 'doctor_not_work_in_the_clinic')
             ->assertJsonPath('error.message', 'Selected doctor doesn\'t work at the selected clinic');

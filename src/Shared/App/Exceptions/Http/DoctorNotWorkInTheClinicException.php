@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class DoctorNotWorkInTheClinicException extends HttpException
 {
-
     /**
      * An HTTP status code.
      */
@@ -20,5 +19,4 @@ class DoctorNotWorkInTheClinicException extends HttpException
      */
     #[\Override]
     protected string $errorCode = 'doctor_not_work_in_the_clinic';
-
 }
