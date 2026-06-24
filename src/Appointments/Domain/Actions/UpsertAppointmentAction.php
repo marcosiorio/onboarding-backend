@@ -12,6 +12,9 @@ use Lightit\Appointments\Domain\DataTransferObjects\AppointmentDto;
 use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
 use Lightit\Appointments\Domain\Models\Appointment;
 use Lightit\Doctors\Domain\Models\Doctor;
+use Lightit\Shared\App\Exceptions\Http\DoctorNotWorkInTheClinicException;
+use Lightit\Shared\App\Exceptions\Http\OverlappingAppointmentTimesException;
+use OverlappingAppointmentTimesExpection;
 
 final readonly class UpsertAppointmentAction
 {
@@ -51,7 +54,7 @@ final readonly class UpsertAppointmentAction
         $doctor = Doctor::query()->with('clinics')->find($doctorId);
 
         if ($doctor === null || $doctor->clinics->doesntContain('id', $clinicId)) {
-            throw new Exception('Selected doctor doesn\'t work at the selected clinic');
+            throw new DoctorNotWorkInTheClinicException('Selected doctor doesn\'t work at the selected clinic');
         }
     }
 
@@ -80,7 +83,7 @@ final readonly class UpsertAppointmentAction
         })->exists();
 
         if ($conflict) {
-            throw new Exception('Doctor is not available in this time, choose another one');
+            throw new OverlappingAppointmentTimesException('Doctor is not available in this time, choose another one');
         }
     }
 
@@ -104,7 +107,7 @@ final readonly class UpsertAppointmentAction
         })->exists();
 
         if ($conflict) {
-            throw new Exception('You have an overlapping appointment in this time, choose another one.');
+            throw new OverlappingAppointmentTimesException('You have an overlapping appointment in this time, choose another one.');
         }
     }
 }

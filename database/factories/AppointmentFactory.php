@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
 use Lightit\Appointments\Domain\Models\Appointment;
+use Lightit\Doctors\Domain\Models\Doctor;
 
 /**
  * @extends Factory<Appointment>
@@ -32,8 +33,8 @@ class AppointmentFactory extends Factory
 
     public function configure(): static
     {
-        return $this->afterCreating(function (Appointment $appointment): void {
-            $appointment->doctor->clinics()->syncWithoutDetaching([$appointment->clinic_id]);
+        return $this->afterMaking(function (Appointment $appointment): void {
+            Doctor::query()->find($appointment->doctor_id)?->clinics()->syncWithoutDetaching([$appointment->clinic_id]);
         });
     }
 

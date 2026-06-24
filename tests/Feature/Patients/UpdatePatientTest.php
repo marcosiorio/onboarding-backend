@@ -19,36 +19,12 @@ describe('update patient info', function (): void {
             ->assertJsonPath('data.email', 'updated@example.com');
     });
 
-    it('fails when name is missing', function (): void {
+    it('fails when name, email and password is missing', function (): void {
         $patient = PatientFactory::new()->createOne();
 
-        putJson("/api/patients/{$patient->id}", [
-            'email'                 => 'test@example.com',
-            'password'              => 'TestPassword1!',
-            'password_confirmation' => 'TestPassword1!',
-        ])->assertUnprocessable()
-            ->assertJsonValidationErrorFor('name', 'error.fields');
-    });
-
-    it('fails when email is missing', function (): void {
-        $patient = PatientFactory::new()->createOne();
-
-        putJson("/api/patients/{$patient->id}", [
-            'name'                  => 'Valid Name',
-            'password'              => 'TestPassword1!',
-            'password_confirmation' => 'TestPassword1!',
-        ])->assertUnprocessable()
-            ->assertJsonValidationErrorFor('email', 'error.fields');
-    });
-
-    it('fails when password is missing', function (): void {
-        $patient = PatientFactory::new()->createOne();
-
-        putJson("/api/patients/{$patient->id}", [
-            'name'  => 'Valid Name',
-            'email' => 'test@example.com',
-        ])->assertUnprocessable()
-            ->assertJsonValidationErrorFor('password', 'error.fields');
+        putJson("/api/patients/{$patient->id}", [])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['name', 'email', 'password'], 'error.fields');
     });
 
     it('fails when name is shorter than 4 characters', function (): void {

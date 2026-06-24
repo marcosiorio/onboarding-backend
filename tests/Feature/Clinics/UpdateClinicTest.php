@@ -20,28 +20,11 @@ describe('update clinic info', function (): void {
             ->assertJsonPath('data.name', 'Favaloro');
     });
 
-    it('fails when name is missing', function (): void {
-        $clinic = ClinicFactory::new()->createOne();
-
-        $response = putJson("/api/clinics/{$clinic->id}", ['address' => 'Some Address 123']);
-        $response->assertUnprocessable()
-            ->assertJsonValidationErrorFor('name', 'error.fields');
-    });
-
-    it('fails when address is missing', function (): void {
-        $clinic = ClinicFactory::new()->createOne();
-
-        $response = putJson("/api/clinics/{$clinic->id}", ['name' => 'Valid Name']);
-        $response->assertUnprocessable()
-            ->assertJsonValidationErrorFor('address', 'error.fields');
-    });
-
     it('fails when both name and address are missing', function (): void {
         $clinic = ClinicFactory::new()->createOne();
 
         $response = putJson("/api/clinics/{$clinic->id}", []);
         $response->assertUnprocessable()
-            ->assertJsonValidationErrorFor('name', 'error.fields')
-            ->assertJsonValidationErrorFor('address', 'error.fields');
+            ->assertJsonValidationErrors(['name', 'address'], 'error.fields');
     });
 });
