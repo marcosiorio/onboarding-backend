@@ -5,6 +5,9 @@ declare(strict_types=1);
 use Database\Factories\AppointmentFactory;
 use Database\Factories\ClinicFactory;
 use Database\Factories\PatientFactory;
+use Illuminate\Support\Facades\Notification;
+use Lightit\Appointments\App\Notifications\AppointmentNotification;
+use Lightit\Appointments\Domain\Models\Appointment;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;
@@ -15,11 +18,17 @@ describe('store appointments', function (): void {
         actingAs($authUser, 'api');
     });
     it('successfully store an appointment', function (): void {
+        Notification::fake();
         $appt = AppointmentFactory::new()->make()->toArray();
 
         postJson(url('/api/appointments'), $appt)
             ->assertCreated();
         assertDatabaseCount('appointments', 1);
+
+        $appointment = Appointment::with('patient')->firstOrFail();
+        $appointment->patient->notify(new AppointmentNotification($appointment));
+
+        Notification::assertSentTo($appointment->patient, AppointmentNotification::class);
     });
 
     it('fails with empty data', function (): void {
