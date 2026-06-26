@@ -19,16 +19,14 @@ describe('store appointments', function (): void {
     });
     it('successfully store an appointment', function (): void {
         Notification::fake();
-        $appt = AppointmentFactory::new()->make()->toArray();
+        $appt = AppointmentFactory::new()->makeOne();
 
-        postJson(url('/api/appointments'), $appt)
+        postJson(url('/api/appointments'), $appt->toArray())
             ->assertCreated();
         assertDatabaseCount('appointments', 1);
 
-        $appointment = Appointment::with('patient')->firstOrFail();
-        $appointment->patient->notify(new AppointmentNotification($appointment));
 
-        Notification::assertSentTo($appointment->patient, AppointmentNotification::class);
+        Notification::assertSentTo($appt->refresh()->patient, AppointmentNotification::class);
     });
 
     it('fails with empty data', function (): void {
@@ -39,16 +37,20 @@ describe('store appointments', function (): void {
 
     it('fails with doctor overlapping times', function (): void {
         $existingAppt = AppointmentFactory::new()->createOne();
-        $newAppt = AppointmentFactory::new()->make([
+        $newAppt = AppointmentFactory::new()->makeOne([
             'doctor_id'  => $existingAppt->doctor_id,
             'clinic_id'  => $existingAppt->clinic_id,
             'start_date' => $existingAppt->start_date,
-        ])->toArray();
+        ]);
 
-        postJson(url('/api/appointments'), $newAppt)
+        Notification::fake();
+
+        postJson(url('/api/appointments'), $newAppt->toArray())
             ->assertConflict()
             ->assertJsonPath('error.code', 'overlapping_appointment_times')
             ->assertJsonPath('error.message', 'Doctor is not available in this time, choose another one');
+
+        Notification::assertNotSentTo($newAppt->refresh()->patient, AppointmentNotification::class);
     });
 
     it('fails when overlapping time for patient', function (): void {

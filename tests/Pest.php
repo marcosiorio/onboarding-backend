@@ -19,6 +19,7 @@ use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use Saloon\MockConfig;
 use function Pest\Laravel\freezeTime;
+
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -36,7 +37,6 @@ uses(
 
 uses(
     Tests\TestCase::class,
-    Illuminate\Foundation\Testing\RefreshDatabase::class,
 )->in('Unit');
 
 /*
