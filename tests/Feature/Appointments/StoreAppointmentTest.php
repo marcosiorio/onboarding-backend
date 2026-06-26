@@ -7,7 +7,6 @@ use Database\Factories\ClinicFactory;
 use Database\Factories\PatientFactory;
 use Illuminate\Support\Facades\Notification;
 use Lightit\Appointments\App\Notifications\AppointmentNotification;
-use Lightit\Appointments\Domain\Models\Appointment;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;

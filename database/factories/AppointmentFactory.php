@@ -19,8 +19,7 @@ class AppointmentFactory extends Factory
 
     public function definition(): array
     {
-        $faker = \Faker\Factory::create();
-        $startDate = CarbonImmutable::parse($faker->dateTimeBetween('now', '+1 years'));
+        $startDate = CarbonImmutable::parse(fake()->dateTimeBetween('now', '+1 years'));
 
         return [
             'clinic_id'  => ClinicFactory::new(),
