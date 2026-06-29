@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Lightit\Appointments\Domain\Actions;
 
 use Carbon\CarbonImmutable;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Lightit\Appointments\App\Notifications\AppointmentNotification;
 use Lightit\Appointments\Domain\DataTransferObjects\AppointmentDto;
 use Lightit\Appointments\Domain\Enums\AppointmentStatusEnum;
 use Lightit\Appointments\Domain\Models\Appointment;
 use Lightit\Doctors\Domain\Models\Doctor;
+use Lightit\Shared\App\Exceptions\Http\DoctorNotWorkInTheClinicException;
+use Lightit\Shared\App\Exceptions\Http\OverlappingAppointmentTimesException;
 
 final readonly class UpsertAppointmentAction
 {
@@ -35,7 +36,7 @@ final readonly class UpsertAppointmentAction
         $appointment->clinic_id = $clinicId;
         $appointment->start_date = $appointmentDto->start_date;
         $appointment->end_date = $end->toDateTimeString();
-        $appointment->status = AppointmentStatusEnum::ACTIVE->value;
+        $appointment->status = AppointmentStatusEnum::ACTIVE;
 
         $appointment->saveOrFail();
 
@@ -51,7 +52,7 @@ final readonly class UpsertAppointmentAction
         $doctor = Doctor::query()->with('clinics')->find($doctorId);
 
         if ($doctor === null || $doctor->clinics->doesntContain('id', $clinicId)) {
-            throw new Exception('Selected doctor doesn\'t work at the selected clinic');
+            throw new DoctorNotWorkInTheClinicException('Selected doctor doesn\'t work at the selected clinic');
         }
     }
 
@@ -80,7 +81,7 @@ final readonly class UpsertAppointmentAction
         })->exists();
 
         if ($conflict) {
-            throw new Exception('Doctor is not available in this time, choose another one');
+            throw new OverlappingAppointmentTimesException('Doctor is not available in this time, choose another one');
         }
     }
 
@@ -104,7 +105,9 @@ final readonly class UpsertAppointmentAction
         })->exists();
 
         if ($conflict) {
-            throw new Exception('You have an overlapping appointment in this time, choose another one.');
+            throw new OverlappingAppointmentTimesException(
+                'You have an overlapping appointment in this time, choose another one.'
+            );
         }
     }
 }

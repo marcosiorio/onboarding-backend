@@ -22,4 +22,9 @@ class ClinicFactory extends Factory
             'address' => $this->faker->address(),
         ];
     }
+
+    public function name(string $name): static
+    {
+        return $this->set('name', $name);
+    }
 }

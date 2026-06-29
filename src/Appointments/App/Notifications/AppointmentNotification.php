@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lightit\Appointments\App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -29,9 +31,8 @@ class AppointmentNotification extends Notification implements ShouldQueue
             ->view('email.appointment-notifications', [
                 'appointment' => $this->appointment,
                 'patient' => $this->appointment->patient,
-                'body' => $this->getMessage()
+                'body' => $this->getMessage(),
             ]);
-
     }
 
     public function getMessage(): string

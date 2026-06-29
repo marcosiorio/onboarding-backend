@@ -50,7 +50,7 @@
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Status</span>
-                        <span class="detail-value">{{ ucfirst($appointment->status) }}</span>
+                        <span class="detail-value">{{ ucfirst($appointment->status->value) }}</span>
                     </div>
                 </div>
             </div>

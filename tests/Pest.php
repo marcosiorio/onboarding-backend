@@ -27,12 +27,17 @@ uses(
     Str::createRandomStringsNormally();
     Str::createUuidsNormally();
     Http::preventStrayRequests();
+    Http::fake(['https://api.pwnedpasswords.com/*' => Http::response('', 200)]);
     Process::preventStrayProcesses();
     Sleep::fake();
     MockConfig::throwOnMissingFixtures();
 
     freezeTime();
 })->in('Feature');
+
+uses(
+    Tests\TestCase::class,
+)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
